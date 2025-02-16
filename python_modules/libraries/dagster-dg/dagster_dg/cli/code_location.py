@@ -47,6 +47,12 @@ def code_location_group():
     default=False,
     help="Do not create a virtual environment for the code location.",
 )
+@click.option(
+    "--populate-cache/--no-populate-cache",
+    is_flag=True,
+    default=True,
+    help="Do not automatically populate the component type cache for the code location.",
+)
 @dg_global_options
 @click.pass_context
 def code_location_scaffold_command(
@@ -54,6 +60,7 @@ def code_location_scaffold_command(
     name: str,
     use_editable_dagster: Optional[str],
     skip_venv: bool,
+    populate_cache: bool,
     **global_options: object,
 ) -> None:
     """Scaffold a Dagster code location file structure and a uv-managed virtual environment scoped
@@ -101,7 +108,11 @@ def code_location_scaffold_command(
         editable_dagster_root = None
 
     scaffold_code_location(
-        code_location_path, dg_context, editable_dagster_root, skip_venv=skip_venv
+        code_location_path,
+        dg_context,
+        editable_dagster_root,
+        skip_venv=skip_venv,
+        populate_cache=populate_cache,
     )
 
 
